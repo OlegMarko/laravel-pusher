@@ -11,8 +11,18 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'MessageController@index')->middleware('auth');
+
+Route::group([
+    'prefix' => 'messages',
+    'middleware' => [
+        'auth'
+    ]
+], function () {
+
+    Route::get('', 'MessageController@fetch');
+    Route::post('', 'MessageController@sent');
+
 });
 
 Auth::routes();
